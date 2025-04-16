@@ -62,16 +62,9 @@ while true; do
     show_location
     display_help
     
-    echo -e "${BLUE}Enter your choice (0-19): ${NC}"
+    echo -e "${BLUE}Enter your choice (0-15): ${NC}"
     read -r opt1
-    
-    # Input validation
-    if ! [[ "$opt1" =~ ^[0-9]+$ ]]; then
-        echo -e "${RED}Invalid input. Please enter a number.${NC}"
-        sleep 1
-        continue
-    fi
-    
+       
     case $opt1 in
         1)  # View files
             echo -e "${GREEN}List all files and Directories here..${NC}"
@@ -211,25 +204,19 @@ while true; do
                     echo -e "${BLUE}Enter file name to search: ${NC}"
                     read -r searchterm
                     echo -e "${GREEN}Searching for files named '$searchterm'...${NC}"
-                    find . -name "*$searchterm*" -print 2>/dev/null | while read -r result; do
-                        echo -e "${BLUE}Found: ${YELLOW}$result${NC}"
-                    done
+                    find . -name "*$searchterm*" -print 2>/dev/null
                     ;;
                 2)
                     echo -e "${BLUE}Enter text to search in files: ${NC}"
                     read -r searchterm
                     echo -e "${GREEN}Searching files containing '$searchterm'...${NC}"
-                    grep -rl "$searchterm" . 2>/dev/null | while read -r result; do
-                        echo -e "${BLUE}Found in: ${YELLOW}$result${NC}"
-                    done
+                    grep -rl "$searchterm" . 2>/dev/null 
                     ;;
                 3)
                     echo -e "${BLUE}Enter file extension to search (without .): ${NC}"
                     read -r searchterm
                     echo -e "${GREEN}Searching for .$searchterm files...${NC}"
-                    find . -name "*.$searchterm" -print 2>/dev/null | while read -r result; do
-                        echo -e "${BLUE}Found: ${YELLOW}$result${NC}"
-                    done
+                    find . -name "*.$searchterm" -print 2>/dev/null 
                     ;;
                 *)
                     echo -e "${RED}Invalid search type.${NC}"
@@ -253,7 +240,8 @@ while true; do
 
         8)  # List all directories
             echo -e "${GREEN}All directories:${NC}"
-            ls -d */ | sed 's/\/$//' | column
+            ls -d */
+            echo
             read -rp "Press enter to continue..."
             ;;
 
@@ -261,7 +249,8 @@ while true; do
             echo -ne "${BLUE}Enter extension (without dot): ${NC}"
             read -r ext
             echo -e "${GREEN}.$ext files:${NC}"
-            find . -name "*.$ext" -printf "%f\n" 2>/dev/null | column
+            find . -name "*.$ext" 2>/dev/null
+            echo
             read -rp "Press enter to continue..."
             ;;
 
@@ -283,7 +272,7 @@ while true; do
             read -rp "Press enter to continue..."
             ;;
 
-        13) # Create directory (new feature)
+        13) # Create directory 
             echo -e "${GREEN}Create directory here..${NC}"
             echo -e "${BLUE}Enter directory name: ${NC}"
             read -r dirname
@@ -294,7 +283,7 @@ while true; do
             fi
             
             if [ -d "$dirname" ]; then
-                echo -e "${YELLOW}Directory already exists.${NC}"
+                echo -e "${YELLOW}Directory already exist${NC}"
                 sleep 1
                 continue
             fi
